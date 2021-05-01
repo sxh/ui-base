@@ -9,11 +9,11 @@ module UiBase.Alerts exposing (alert)
 
 -}
 
+import Colors.Opaque exposing (red, white)
 import Element exposing (Element, centerX, el, fill, padding, text, width)
 import Element.Background as Background
 import Element.Border as Border exposing (rounded)
 import Element.Font as Font
-import UiBase.Colors exposing (red, white)
 import UiBase.Constants exposing (defaultRounding)
 
 

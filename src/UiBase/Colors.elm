@@ -1,14 +1,7 @@
-module UiBase.Colors exposing
-    ( deepSkyBlue, skyBlue, white, black, royalBlue, cornflowerBlue, red
-    , navBackground, navTextColour
-    )
+module UiBase.Colors exposing (navBackground, navTextColour)
 
-{-| Predefine colours by name, and assign some by role
-
-
-# Colours by name
-
-@docs deepSkyBlue, skyBlue, white, black, royalBlue, cornflowerBlue, red
+{-| Predefine some colors by role. Uses phollyer/elm-ui-colors, which I recommend for
+named colors.
 
 
 # Colours by role
@@ -17,67 +10,19 @@ module UiBase.Colors exposing
 
 -}
 
-import Element exposing (Element, rgb255)
+import Colors.Opaque exposing (deepskyblue, white)
+import Element exposing (Color)
 
 
 {-| Return navigation background colour
 -}
-navBackground : Element.Color
+navBackground : Color
 navBackground =
-    deepSkyBlue
+    deepskyblue
 
 
 {-| Return navigation text colour
 -}
-navTextColour : Element.Color
+navTextColour : Color
 navTextColour =
     white
-
-
-{-| Return deepSkyBlue
--}
-deepSkyBlue : Element.Color
-deepSkyBlue =
-    rgb255 0 191 255
-
-
-{-| Return skyBlue
--}
-skyBlue : Element.Color
-skyBlue =
-    rgb255 136 206 255
-
-
-{-| Return white
--}
-white : Element.Color
-white =
-    rgb255 255 255 255
-
-
-{-| Return black
--}
-black : Element.Color
-black =
-    rgb255 0 0 0
-
-
-{-| Return royalBlue
--}
-royalBlue : Element.Color
-royalBlue =
-    rgb255 65 105 225
-
-
-{-| Return cornflowerBlue
--}
-cornflowerBlue : Element.Color
-cornflowerBlue =
-    rgb255 100 149 237
-
-
-{-| Return red
--}
-red : Element.Color
-red =
-    rgb255 255 0 0
