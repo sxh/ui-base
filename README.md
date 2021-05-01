@@ -8,13 +8,12 @@ The contents are:
 
 ## Colors
 
-Stuck to the US spelling for consistency with other Elm code. Names for specific RGB combinations, 
-using web standard names where possible. I'm personally colour blind (really) so I use names that 
-I've looked up
+Role based colors. Use https://package.elm-lang.org/packages/phollyer/elm-ui-colors/latest/
+for general named colors.
 
 ## Buttons
 
-Buttons named after roles they play in the project
+Consistent buttons of different sizes
 
 ## Alerts
 
@@ -22,4 +21,4 @@ One standard alert
 
 ## OnKey
 
-Execute methods when a key is pressed
+Send messages when a key is pressed
