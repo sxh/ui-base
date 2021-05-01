@@ -1,12 +1,11 @@
-module UiCommon exposing (actionButton, cornflowerBlue, defaultRounding, mediumActionButton, navBackground, navTextColour, red, royalBlue, skyBlue, smallActionButton, white)
+module UiBase.Buttons exposing (actionButton, defaultRounding, mediumActionButton, smallActionButton)
 
--- sxh move this to a separate gem and share with scaleaircraftstuff
-
-import Element exposing (Element, padding, rgb255, text)
+import Element exposing (Element, padding, text)
 import Element.Background as Background
 import Element.Border exposing (rounded)
 import Element.Font as Font
 import Element.Input
+import UiBase.Colors exposing (navBackground, navTextColour)
 
 
 defaultRounding =
@@ -71,39 +70,3 @@ sizedActionButton event buttonLabel fontSize paddingSize =
 --    { onPress = event
 --    , label = text buttonLabel
 --    }
-
-
-navBackground =
-    deepSkyBlue
-
-
-navTextColour =
-    white
-
-
-deepSkyBlue =
-    rgb255 0 191 255
-
-
-skyBlue =
-    rgb255 136 206 255
-
-
-white =
-    rgb255 255 255 255
-
-
-black =
-    rgb255 0 0 0
-
-
-royalBlue =
-    rgb255 65 105 225
-
-
-cornflowerBlue =
-    rgb255 100 149 237
-
-
-red =
-    rgb255 255 0 0
