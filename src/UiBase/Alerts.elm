@@ -1,13 +1,24 @@
 module UiBase.Alerts exposing (alert)
 
+{-| Display an alert, inline on the page
+
+
+# Alert
+
+@docs alert
+
+-}
+
 import Element exposing (Element, centerX, el, fill, padding, text, width)
 import Element.Background as Background
 import Element.Border as Border exposing (rounded)
 import Element.Font as Font
-import UiBase.Buttons exposing (defaultRounding)
 import UiBase.Colors exposing (red, white)
+import UiBase.Constants exposing (defaultRounding)
 
 
+{-| Display an alert, inline on the page
+-}
 alert : String -> Element msg
 alert message =
     el

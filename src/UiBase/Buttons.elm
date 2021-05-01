@@ -1,4 +1,13 @@
-module UiBase.Buttons exposing (actionButton, defaultRounding, mediumActionButton, smallActionButton)
+module UiBase.Buttons exposing (actionButton, mediumActionButton, smallActionButton)
+
+{-| Provide clickable buttons
+
+
+# Buttons
+
+@docs actionButton, mediumActionButton, smallActionButton
+
+-}
 
 import Element exposing (Element, padding, text)
 import Element.Background as Background
@@ -6,12 +15,11 @@ import Element.Border exposing (rounded)
 import Element.Font as Font
 import Element.Input
 import UiBase.Colors exposing (navBackground, navTextColour)
+import UiBase.Constants exposing (defaultRounding)
 
 
-defaultRounding =
-    5
-
-
+{-| Largest button that indicates you can do something
+-}
 actionButton : msg -> String -> Element msg
 actionButton event buttonLabel =
     sizedActionButton event
@@ -20,6 +28,8 @@ actionButton event buttonLabel =
         10
 
 
+{-| Medium button that indicates you can do something
+-}
 mediumActionButton : msg -> String -> Element msg
 mediumActionButton event buttonLabel =
     sizedActionButton event
@@ -28,6 +38,8 @@ mediumActionButton event buttonLabel =
         7
 
 
+{-| Smallest button that indicates you can do something
+-}
 smallActionButton : msg -> String -> Element msg
 smallActionButton event buttonLabel =
     sizedActionButton event
@@ -36,17 +48,10 @@ smallActionButton event buttonLabel =
         5
 
 
+{-| Button with custom font and padding size
+-}
 sizedActionButton : msg -> String -> Int -> Int -> Element msg
 sizedActionButton event buttonLabel fontSize paddingSize =
-    --el
-    --    [ Font.size fontSize
-    --    , Font.color navTextColour
-    --    , padding paddingSize
-    --    , onClick event
-    --    , rounded defaultRounding
-    --    , Background.color navBackground
-    --    ]
-    --    (text buttonLabel)
     Element.Input.button
         [ Font.size fontSize
         , Font.color navTextColour
@@ -57,16 +62,3 @@ sizedActionButton event buttonLabel fontSize paddingSize =
         { onPress = Just event
         , label = text buttonLabel
         }
-
-
-
---Element.Input.button
---    [ Font.size fontSize
---    , Font.color navTextColour
---    , padding paddingSize
---    , rounded defaultRounding
---    , Background.color navBackground
---    ]
---    { onPress = event
---    , label = text buttonLabel
---    }

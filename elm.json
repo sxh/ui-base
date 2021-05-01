@@ -8,6 +8,7 @@
         "UiBase.Alerts",
         "UiBase.Buttons",
         "UiBase.Colors",
+        "UiBase.Constants",
         "UiBase.OnKey"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
