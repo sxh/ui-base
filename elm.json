@@ -3,13 +3,14 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "2.1.1",
+    "version": "2.2.0",
     "exposed-modules": [
         "UiBase.Alerts",
         "UiBase.Buttons",
         "UiBase.Colors",
         "UiBase.Constants",
-        "UiBase.OnKey"
+        "UiBase.OnKey",
+        "UiBase.Product"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
