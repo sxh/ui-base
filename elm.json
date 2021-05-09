@@ -3,7 +3,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "exposed-modules": [
         "UiBase.Alerts",
         "UiBase.Buttons",
@@ -20,6 +20,7 @@
         "elm/time": "1.0.0 <= v < 2.0.0",
         "elm/url": "1.0.0 <= v < 2.0.0",
         "elm/virtual-dom": "1.0.2 <= v < 2.0.0",
+        "justinmimbs/date": "3.2.1 <= v < 4.0.0",
         "mdgriffith/elm-ui": "1.1.8 <= v < 2.0.0",
         "phollyer/elm-ui-colors": "3.0.1 <= v < 4.0.0"
     },
