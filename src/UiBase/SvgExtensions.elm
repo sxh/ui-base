@@ -1,10 +1,10 @@
-module UiBase.SvgExtensions exposing (downArrow, spinner, upArrow)
+module UiBase.SvgExtensions exposing (downArrow, spinner, upArrow, angleUp, angleDown)
 
 {-| Provide icons as elm-ui Elements
 
 # Icons
 
-@docs upArrow, downArrow, spinner
+@docs upArrow, downArrow, spinner, angleUp, angleDown
 
 -}
 
@@ -35,8 +35,21 @@ spinner : Element msg
 spinner =
     iconElement [ spin ] FontAwesome.Solid.spinner
 
+{-| Angle Up
+-}
+angleUp : Element msg
+angleUp =
+    iconElement [] FontAwesome.Solid.angleUp
+
+{-| Angle Down
+-}
+angleDown : Element msg
+angleDown =
+    iconElement [] FontAwesome.Solid.angleDown
+
 {-| Turn an icon into an Element
 -}
 iconElement : List (Svg.Attribute msg) -> FontAwesome.Icon.Icon -> Element msg
 iconElement attributes icon =
     el [] (html (viewStyled attributes icon))
+
