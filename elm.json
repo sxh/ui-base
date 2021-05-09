@@ -3,7 +3,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "exposed-modules": [
         "UiBase.Alerts",
         "UiBase.Buttons",
