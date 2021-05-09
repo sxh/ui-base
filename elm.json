@@ -3,7 +3,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "exposed-modules": [
         "UiBase.Alerts",
         "UiBase.Buttons",
@@ -11,6 +11,7 @@
         "UiBase.Constants",
         "UiBase.OnKey",
         "UiBase.Product",
+        "UiBase.ProductTable",
         "UiBase.SvgExtensions"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
