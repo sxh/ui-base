@@ -1,20 +1,32 @@
-module UiBase.SearchResults exposing (searchResultRows)
+module UiBase.SearchResults exposing (searchAircraftList)
 
 {-| Consistent search result rows
 
 
 # Search Results Rows
 
-@docs searchResultRows
+@docs searchAircraftList
 
 -}
 
-import Element exposing (Element, paddingXY, row, text)
+import Element exposing (Element, column, fill, paddingXY, row, text, width)
 import Element.Font as Font
 import List exposing (concatMap, filter, isEmpty)
+import Maybe exposing (withDefault)
 import UiBase.AircraftTypes exposing (GenericAircraftData, RelatedToSearch, TypedAircraftData, TypedAircraftList, aircraftTypeString)
 import UiBase.RelatedItemButtons exposing (searchResultButton)
 import Vector4 exposing (toList)
+
+
+{-| Formatted list, or nothing
+-}
+searchAircraftList : (TypedAircraftData -> msg) -> Maybe RelatedToSearch -> Element msg
+searchAircraftList toMsg maybeSearchResults =
+    let
+        maybeSearchRows =
+            maybeSearchResults |> Maybe.map (searchResultRows toMsg) |> withDefault []
+    in
+    column [ width fill ] maybeSearchRows
 
 
 {-| List of search result rows
