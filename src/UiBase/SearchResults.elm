@@ -2,6 +2,7 @@ module UiBase.SearchResults exposing (searchResultRows)
 
 {-| Consistent search result rows
 
+
 # Search Results Rows
 
 @docs searchResultRows
@@ -10,10 +11,11 @@ module UiBase.SearchResults exposing (searchResultRows)
 
 import Element exposing (Element, paddingXY, row, text)
 import Element.Font as Font
-import List exposing (concatMap)
-import UiBase.AircraftTypes exposing (RelatedToSearch, TypedAircraftData, aircraftTypeString)
+import List exposing (concatMap, filter, isEmpty)
+import UiBase.AircraftTypes exposing (GenericAircraftData, RelatedToSearch, TypedAircraftData, TypedAircraftList, aircraftTypeString)
 import UiBase.RelatedItemButtons exposing (searchResultButton)
 import Vector4 exposing (toList)
+
 
 {-| List of search result rows
 -}
@@ -23,16 +25,28 @@ searchResultRows toMsg relatedToSearch =
         |> toList
         |> concatMap
             (\each ->
-                (each.aircraftType
-                    |> aircraftTypeString
-                    |> searchResultHeading
-                )
-                    :: (each.list
-                            |> List.sortBy .name
-                            |> List.map (\generic -> { aircraftType = each.aircraftType, aircraftData = generic })
-                            |> List.map (searchResultRow toMsg)
-                       )
+                typeToHeading each.aircraftType
+                    :: typedListToRows toMsg each
             )
+
+
+typeToHeading aircraftType =
+    aircraftType
+        |> aircraftTypeString
+        |> searchResultHeading
+
+
+typedListToRows : (TypedAircraftData -> msg) -> TypedAircraftList -> List (Element msg)
+typedListToRows toMsg each =
+    case isEmpty each.list of
+        True ->
+            [ Element.none ]
+
+        False ->
+            each.list
+                |> List.sortBy .name
+                |> List.map (\generic -> TypedAircraftData each.aircraftType generic)
+                |> List.map (searchResultRow toMsg)
 
 
 {-| Search result heading
