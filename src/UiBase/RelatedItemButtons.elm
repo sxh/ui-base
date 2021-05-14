@@ -39,12 +39,12 @@ searchResultButton event data =
 -}
 relatedItemButton : (TypedAircraftData -> msg) -> TypedAircraftData -> Element msg
 relatedItemButton event data =
-    el
-        [ Font.size 14
-        , Font.color navTextColour
-        , padding 8
-        , onClick (event data)
-        , rounded defaultRounding
-        , Background.color navBackground
-        ]
-        (text data.aircraftData.name)
+        el
+            [ padding 5
+            , rounded 3
+            , Background.color navBackground
+            , Font.color navTextColour
+            , onClick (event data)
+            , mouseOver [ Background.color royalblue ]
+            ]
+            (text data.aircraftData.name)
