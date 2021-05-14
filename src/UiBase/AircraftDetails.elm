@@ -1,20 +1,31 @@
-module UiBase.AircraftDetails exposing (aircraftDetailsRows, relatedItemsListAsRow, sectionHeadingRow)
+module UiBase.AircraftDetails exposing (aircraftDetailsColumn, relatedItemsListAsRow, sectionHeadingRow)
 
 {-| Provide consistent view of related items
 
 # View methods
 
-@docs aircraftDetailsRows, relatedItemsListAsRow, sectionHeadingRow
+@docs aircraftDetailsColumn, relatedItemsListAsRow, sectionHeadingRow
 
 -}
 
-import Element exposing (Element, el, fill, padding, paddingXY, row, spacing, text, width, wrappedRow)
+import Element exposing (Element, column, el, fill, padding, paddingXY, row, spacing, text, width, wrappedRow)
 import Element.Font as Font
 import List exposing (concatMap)
 import String exposing (join)
 import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
 import Vector3 exposing (toList)
+
+
+{-| The details of an aircraft, included misnomers and related items,
+arranged in a column to consistently control spacing
+-}
+aircraftDetailsColumn : (TypedAircraftData -> msg) -> Maybe RelatedToAircraft -> Element msg
+aircraftDetailsColumn getRelatedAircraftMsg selectedAircraft =
+    selectedAircraft
+        |> Maybe.map (aircraftDetailsRows getRelatedAircraftMsg)
+        |> Maybe.withDefault [ text "No aircraft selected" ]
+        |> column [ width fill ]
 
 
 {-| The details of an aircraft, included misnomers and related items
