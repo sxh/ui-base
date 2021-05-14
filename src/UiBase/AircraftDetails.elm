@@ -1,19 +1,48 @@
-module UiBase.RelatedItems exposing (relatedAircraftSections, relatedItemsListAsRow, sectionHeadingRow)
+module UiBase.AircraftDetails exposing (aircraftDetailsRows, relatedItemsListAsRow, sectionHeadingRow)
 
 {-| Provide consistent view of related items
 
 # View methods
 
-@docs relatedAircraftSections, relatedItemsListAsRow, sectionHeadingRow
+@docs aircraftDetailsRows, relatedItemsListAsRow, sectionHeadingRow
 
 -}
 
-import Element exposing (Element, fill, padding, paddingXY, row, spacing, text, width, wrappedRow)
+import Element exposing (Element, el, fill, padding, paddingXY, row, spacing, text, width, wrappedRow)
 import Element.Font as Font
 import List exposing (concatMap)
+import String exposing (join)
 import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
 import Vector3 exposing (toList)
+
+
+{-| The details of an aircraft, included misnomers and related items
+-}
+aircraftDetailsRows : (TypedAircraftData -> msg) -> RelatedToAircraft -> List (Element msg)
+aircraftDetailsRows getRelatedAircraftMsg relatedAircraft =
+    aircraftDetailsHeadingSection relatedAircraft ++ relatedAircraftSections getRelatedAircraftMsg relatedAircraft
+
+
+aircraftDetailsHeadingSection : RelatedToAircraft -> List (Element msg)
+aircraftDetailsHeadingSection relatedAircraft =
+    let
+        aircraftMisnomers =
+            relatedAircraft.base.aircraftData.misnomers
+
+        misnomerBit =
+            case List.isEmpty aircraftMisnomers of
+                True ->
+                    Element.none
+
+                False ->
+                    row [] [ el [ Font.bold ] (text "Aka: "), aircraftMisnomers |> join ", " |> text ]
+    in
+    [ aircraftNameHeading relatedAircraft.base.aircraftData.name, misnomerBit ]
+
+
+aircraftNameHeading name =
+    el [ Font.size 24, Font.heavy, paddingXY 0 10 ] (text name)
 
 {-| All the related items of a single type as a single row
 -}

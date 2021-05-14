@@ -3,8 +3,9 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "exposed-modules": [
+        "UiBase.AircraftDetails",
         "UiBase.AircraftTypes",
         "UiBase.Alerts",
         "UiBase.Buttons",
@@ -13,7 +14,6 @@
         "UiBase.OnKey",
         "UiBase.Product",
         "UiBase.ProductTable",
-        "UiBase.RelatedItems",
         "UiBase.RelatedItemButtons",
         "UiBase.SearchResults",
         "UiBase.SvgExtensions"
