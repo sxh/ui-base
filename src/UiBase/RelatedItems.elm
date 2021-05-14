@@ -1,17 +1,19 @@
-module UiBase.RelatedItems exposing (relatedItemsListRow, relatedItemsListAsRow)
+module UiBase.RelatedItems exposing (relatedAircraftSections, relatedItemsListAsRow, sectionHeadingRow)
 
 {-| Provide consistent view of related items
 
 # View methods
 
-@docs relatedItemsListAsRow, relatedItemsListRow
+@docs relatedAircraftSections, relatedItemsListAsRow, sectionHeadingRow
 
 -}
 
-import Element exposing (Element, fill, padding, row, spacing, text, width, wrappedRow)
+import Element exposing (Element, fill, padding, paddingXY, row, spacing, text, width, wrappedRow)
 import Element.Font as Font
-import UiBase.AircraftTypes exposing (TypedAircraftData, TypedAircraftList, isEmpty, toTypedList)
+import List exposing (concatMap)
+import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
+import Vector3 exposing (toList)
 
 {-| All the related items of a single type as a single row
 -}
@@ -31,4 +33,26 @@ relatedItemsListRow getRelatedAircraftMsg typedAircraftList =
 
     else
         relatedItemsListAsRow getRelatedAircraftMsg typedAircraftList
+
+{-| All of the sections of related items by type, including headings and lists
+-}
+relatedAircraftSections : (TypedAircraftData -> msg) -> RelatedToAircraft -> List (Element msg)
+relatedAircraftSections getRelatedAircraftMsg relatedAircraft =
+    let
+        relatedResultsSection : TypedAircraftList -> List (Element msg)
+        relatedResultsSection typedAircraftList =
+            sectionHeadingRow [ text (aircraftTypeString typedAircraftList.aircraftType) ] :: [ relatedItemsListRow getRelatedAircraftMsg typedAircraftList ]
+    in
+    relatedAircraft.lists
+        |> toList
+        |> concatMap relatedResultsSection
+
+{-| Heading row for a section
+-}
+sectionHeadingRow : List (Element msg) -> Element msg
+sectionHeadingRow elements =
+    row
+        [ Font.size 20, paddingXY 0 10, spacing 5 ]
+        elements
+
 
