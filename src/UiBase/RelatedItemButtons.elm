@@ -19,7 +19,7 @@ import Element.Input exposing (button)
 import UiBase.AircraftTypes exposing (TypedAircraftData)
 import UiBase.Colors exposing (navBackground, navTextColour)
 import UiBase.Constants exposing (defaultRounding)
-import UiBase.Sizes exposing (normalFontSize)
+import UiBase.FontSizes exposing (normalFontSize)
 
 
 {-| Search result button

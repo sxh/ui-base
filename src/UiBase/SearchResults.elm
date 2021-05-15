@@ -13,8 +13,8 @@ import Element exposing (Element, column, fill, paddingXY, row, text, width)
 import List exposing (concatMap, isEmpty)
 import Maybe exposing (withDefault)
 import UiBase.AircraftTypes exposing (GenericAircraftData, RelatedToSearch, TypedAircraftData, TypedAircraftList, aircraftTypeString)
+import UiBase.FontSizes exposing (largeFontSize)
 import UiBase.RelatedItemButtons exposing (searchResultButton)
-import UiBase.Sizes exposing (largeFontSize)
 import Vector4 exposing (toList)
 
 

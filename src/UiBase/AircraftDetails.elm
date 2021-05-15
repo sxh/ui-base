@@ -14,8 +14,8 @@ import Element.Font as Font
 import List exposing (concatMap)
 import String exposing (join)
 import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
+import UiBase.FontSizes exposing (extraLargeFontSize, normalFontSize, smallFontSize, superLargeFontSize)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
-import UiBase.Sizes exposing (extraLargeFontSize, normalFontSize, smallFontSize, superLargeFontSize)
 import Vector3 exposing (toList)
 
 

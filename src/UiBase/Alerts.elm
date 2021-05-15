@@ -15,7 +15,7 @@ import Element.Background as Background
 import Element.Border as Border exposing (rounded)
 import Element.Font as Font
 import UiBase.Constants exposing (defaultRounding)
-import UiBase.Sizes exposing (extraLargeFontSize)
+import UiBase.FontSizes exposing (extraLargeFontSize)
 
 
 {-| Display an alert, inline on the page

@@ -17,8 +17,8 @@ import Element.Events exposing (onClick)
 import Element.Font as Font
 import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
+import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
-import UiBase.Sizes exposing (largeFontSize, normalFontSize)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 

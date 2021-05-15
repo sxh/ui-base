@@ -17,7 +17,7 @@ import Element.Font as Font
 import Element.Input
 import UiBase.Colors exposing (navBackground, navTextColour)
 import UiBase.Constants exposing (defaultRounding)
-import UiBase.Sizes exposing (extraLargeFontSize, largeFontSize, normalFontSize, smallFontSize)
+import UiBase.FontSizes exposing (extraLargeFontSize, largeFontSize, normalFontSize, smallFontSize)
 
 
 {-| Largest button that indicates you can do something
