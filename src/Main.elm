@@ -1,24 +1,32 @@
 module Main exposing (..)
+
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Element exposing (layout)
+import Html exposing (Html)
+import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
+import UiBase.AircraftTypes exposing (TypedAircraftData)
+
 
 main =
-  Browser.sandbox { init = 0, update = update, view = view }
+    Browser.sandbox { init = Nothing, update = update, view = view }
 
-type Msg = Increment | Decrement
 
+type Msg
+    = SelectAircraft TypedAircraftData
+
+
+update : Msg -> Maybe TypedAircraftData -> Maybe TypedAircraftData
 update msg model =
-  case msg of
-    Increment ->
-      model + 1
+    case msg of
+        SelectAircraft _ ->
+            model
 
-    Decrement ->
-      model - 1
 
-view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Increment ] [ text "+" ]
-    ]
+view : Maybe TypedAircraftData -> Html Msg
+view _ =
+    let
+        data =
+            Nothing
+    in
+    --  aircraftDetailsColumn : (TypedAircraftData -> msg) -> Maybe RelatedToAircraft -> Element msg
+    layout [] (aircraftDetailsColumn SelectAircraft data)
