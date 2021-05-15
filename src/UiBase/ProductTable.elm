@@ -17,6 +17,7 @@ import Element.Events exposing (onClick)
 import Element.Font as Font
 import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
+import String exposing (replace)
 import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
@@ -24,7 +25,7 @@ import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 {-| The overall table
 -}
-productTable : (String.String -> (Product -> String.String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
+productTable : (String -> (Product -> String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
 productTable toggleSort setDisplayImage currentDate sortDescription products =
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
@@ -34,11 +35,16 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
             , textColumn toggleSort 3 (productTextToLink .product_code) "Code" .product_code sortDescription
             , textColumn toggleSort 16 (productTableDescriptionElement currentDate) "Description" .description sortDescription
             , textColumn toggleSort 1 (productTextToLink .scale) "Scale" .scale sortDescription
-            , textColumn toggleSort 1 (productTextToLink .price) "Price" .price sortDescription
+            , textColumn toggleSort 1 (productTextToLink (.price >> nonBlankSpaces)) "Price" .price sortDescription
             , textColumn toggleSort 4 (productTextToLink .category) "Category" .category sortDescription
             , productColumn 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url)
             ]
         }
+
+
+nonBlankSpaces : String -> String
+nonBlankSpaces string =
+    string |> replace " " "&nbsp;"
 
 
 {-| Single column heading

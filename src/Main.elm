@@ -1,30 +1,45 @@
 module Main exposing (..)
 
 import Browser
+import Date exposing (Date)
 import Element exposing (column, layout, padding, spacing)
 import Html exposing (Html)
+import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, TypedAircraftData, TypedAircraftList)
+import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
+import UiBase.ProductTable exposing (productTable)
 import Vector3
 
 
 main =
-    Browser.sandbox { init = Nothing, update = update, view = view }
+    Browser.sandbox { init = init, update = update, view = view }
 
 
 type Msg
     = SelectAircraft TypedAircraftData
+    | ToggleSort String (Product -> String)
+    | DisplayImage Int
 
 
-update : Msg -> Maybe TypedAircraftData -> Maybe TypedAircraftData
+type alias Model =
+    { currentDate : Date }
+
+
+init : Model
+init =
+    { currentDate = Date.fromCalendarDate 1 Jan 2001 }
+
+
+update : Msg -> Model -> Model
 update msg model =
     case msg of
-        SelectAircraft _ ->
+        _ ->
             model
 
 
-view : Maybe TypedAircraftData -> Html Msg
-view _ =
+view : Model -> Html Msg
+view model =
     let
         supermarine : GenericAircraftData
         supermarine =
@@ -57,10 +72,18 @@ view _ =
         relatedAircraftData : RelatedToAircraft
         relatedAircraftData =
             RelatedToAircraft base relatedLists
+
+        sortDescription : SortDescription
+        sortDescription =
+            SortDescription "Description" .description Ascending
+
+        products =
+            []
     in
     layout []
         (column [ padding 30, spacing 40 ]
             [ aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
+            , productTable ToggleSort DisplayImage model.currentDate sortDescription products
             ]
         )
