@@ -2,6 +2,7 @@ module UiBase.ProductTable exposing (productTable)
 
 {-| Provide a consistent Product table experience
 
+
 # Table
 
 @docs productTable
@@ -17,6 +18,7 @@ import Element.Font as Font
 import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
+import UiBase.Sizes exposing (largeFontSize, normalFontSize)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 
@@ -45,9 +47,10 @@ columnHeading : List (Attribute msg) -> Element msg -> Element msg
 columnHeading attributes heading =
     let
         commonAttributes =
-            [ Font.heavy, Font.size 18, paddingEach { left = 4, right = 4, top = 15, bottom = 10 } ]
+            [ Font.heavy, largeFontSize, paddingEach { left = 4, right = 4, top = 15, bottom = 10 } ]
     in
     el (commonAttributes ++ attributes) heading
+
 
 {-| Image cell, contains thumbnail of image
 -}
@@ -75,6 +78,7 @@ imageCell setDisplayImage selector product =
             )
         |> withDefault none
 
+
 {-| Link to the source page for the product
 -}
 productTextToLink : (Product -> String) -> Product -> Element msg
@@ -91,7 +95,8 @@ textCell : (Product -> Element msg) -> Product -> Element msg
 textCell contentBuilder product =
     product
         |> contentBuilder
-        |> (\x -> paragraph [ Font.size 16 ] [ x ])
+        |> (\x -> paragraph [ normalFontSize ] [ x ])
+
 
 {-| Single column
 -}
@@ -106,9 +111,9 @@ productColumn proportion headerContent cellContent =
                 |> el [ height fill, Background.color (productRowColour index), padding 8 ]
     }
 
+
 {-| Rows have alternating colours
 -}
-
 productRowColour : Int -> Color
 productRowColour rowNumber =
     case modBy 2 rowNumber of
@@ -117,6 +122,7 @@ productRowColour rowNumber =
 
         _ ->
             white
+
 
 {-| Description cell
 -}
@@ -137,6 +143,7 @@ productTableDescriptionElement currentDate product =
 
         _ ->
             productTextToLink .description product
+
 
 {-| Single text column
 -}

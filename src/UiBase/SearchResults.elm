@@ -10,11 +10,11 @@ module UiBase.SearchResults exposing (searchAircraftList)
 -}
 
 import Element exposing (Element, column, fill, paddingXY, row, text, width)
-import Element.Font as Font
-import List exposing (concatMap, filter, isEmpty)
+import List exposing (concatMap, isEmpty)
 import Maybe exposing (withDefault)
 import UiBase.AircraftTypes exposing (GenericAircraftData, RelatedToSearch, TypedAircraftData, TypedAircraftList, aircraftTypeString)
 import UiBase.RelatedItemButtons exposing (searchResultButton)
+import UiBase.Sizes exposing (largeFontSize)
 import Vector4 exposing (toList)
 
 
@@ -65,7 +65,7 @@ typedListToRows toMsg each =
 -}
 searchResultHeading : String -> Element msg
 searchResultHeading groupName =
-    row [ Font.size 18, paddingXY 0 20 ] [ text groupName ]
+    row [ largeFontSize, paddingXY 0 20 ] [ text groupName ]
 
 
 {-| Single search result row

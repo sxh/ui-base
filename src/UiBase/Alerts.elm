@@ -15,6 +15,7 @@ import Element.Background as Background
 import Element.Border as Border exposing (rounded)
 import Element.Font as Font
 import UiBase.Constants exposing (defaultRounding)
+import UiBase.Sizes exposing (extraLargeFontSize)
 
 
 {-| Display an alert, inline on the page
@@ -22,7 +23,7 @@ import UiBase.Constants exposing (defaultRounding)
 alert : String -> Element msg
 alert message =
     el
-        [ Font.size 20
+        [ extraLargeFontSize
         , Font.color white
         , padding 20
         , Border.solid

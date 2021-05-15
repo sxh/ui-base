@@ -2,6 +2,7 @@ module UiBase.AircraftDetails exposing (aircraftDetailsColumn, relatedItemsListA
 
 {-| Provide consistent view of related items
 
+
 # View methods
 
 @docs aircraftDetailsColumn, relatedItemsListAsRow, sectionHeadingRow
@@ -14,6 +15,7 @@ import List exposing (concatMap)
 import String exposing (join)
 import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
+import UiBase.Sizes exposing (extraLargeFontSize, normalFontSize, superLargeFontSize)
 import Vector3 exposing (toList)
 
 
@@ -53,7 +55,8 @@ aircraftDetailsHeadingSection relatedAircraft =
 
 
 aircraftNameHeading name =
-    el [ Font.size 24, Font.heavy, paddingXY 0 10 ] (text name)
+    el [ superLargeFontSize, Font.heavy, paddingXY 0 10 ] (text name)
+
 
 {-| All the related items of a single type as a single row
 -}
@@ -62,7 +65,8 @@ relatedItemsListAsRow getRelatedAircraftMsg names =
     names
         |> toTypedList
         |> List.map (relatedItemButton getRelatedAircraftMsg)
-        |> wrappedRow [ width fill, padding 5, Font.size 16, spacing 5 ]
+        |> wrappedRow [ width fill, padding 5, normalFontSize, spacing 5 ]
+
 
 {-| Row that contains either all the related items, or text if none
 -}
@@ -73,6 +77,7 @@ relatedItemsListRow getRelatedAircraftMsg typedAircraftList =
 
     else
         relatedItemsListAsRow getRelatedAircraftMsg typedAircraftList
+
 
 {-| All of the sections of related items by type, including headings and lists
 -}
@@ -87,12 +92,11 @@ relatedAircraftSections getRelatedAircraftMsg relatedAircraft =
         |> toList
         |> concatMap relatedResultsSection
 
+
 {-| Heading row for a section
 -}
 sectionHeadingRow : List (Element msg) -> Element msg
 sectionHeadingRow elements =
     row
-        [ Font.size 20, paddingXY 0 10, spacing 5 ]
+        [ extraLargeFontSize, paddingXY 0 10, spacing 5 ]
         elements
-
-

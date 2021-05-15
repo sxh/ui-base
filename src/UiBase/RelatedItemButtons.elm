@@ -1,5 +1,7 @@
-module UiBase.RelatedItemButtons exposing (relatedItemButton, searchResultButton)
+module UiBase.RelatedItemButtons exposing (searchResultButton, relatedItemButton)
+
 {-| Provide consistent clickable buttons for search and related items
+
 
 # Buttons
 
@@ -17,6 +19,7 @@ import Element.Input exposing (button)
 import UiBase.AircraftTypes exposing (TypedAircraftData)
 import UiBase.Colors exposing (navBackground, navTextColour)
 import UiBase.Constants exposing (defaultRounding)
+import UiBase.Sizes exposing (normalFontSize)
 
 
 {-| Search result button
@@ -25,7 +28,7 @@ searchResultButton : (TypedAircraftData -> msg) -> TypedAircraftData -> Element 
 searchResultButton event data =
     -- need to wrap this in a column that has the XY padding
     row
-        [ Font.size 16
+        [ normalFontSize
         , Font.color navBackground
         , paddingXY 20 2
         , rounded defaultRounding
@@ -39,12 +42,12 @@ searchResultButton event data =
 -}
 relatedItemButton : (TypedAircraftData -> msg) -> TypedAircraftData -> Element msg
 relatedItemButton event data =
-        el
-            [ padding 5
-            , rounded 3
-            , Background.color navBackground
-            , Font.color navTextColour
-            , onClick (event data)
-            , mouseOver [ Background.color royalblue ]
-            ]
-            (text data.aircraftData.name)
+    el
+        [ padding 5
+        , rounded 3
+        , Background.color navBackground
+        , Font.color navTextColour
+        , onClick (event data)
+        , mouseOver [ Background.color royalblue ]
+        ]
+        (text data.aircraftData.name)
