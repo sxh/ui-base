@@ -23,12 +23,12 @@ type Msg
 
 
 type alias Model =
-    { currentDate : Date }
+    { message : String }
 
 
 init : Model
 init =
-    { currentDate = Date.fromCalendarDate 1 Jan 2001 }
+    { message = "Hello World" }
 
 
 update : Msg -> Model -> Model
@@ -39,7 +39,7 @@ update msg model =
 
 
 view : Model -> Html Msg
-view model =
+view _ =
     let
         supermarine : GenericAircraftData
         supermarine =
@@ -76,14 +76,38 @@ view model =
         sortDescription : SortDescription
         sortDescription =
             SortDescription "Description" .description Ascending
-
-        products =
-            []
     in
     layout []
         (column [ padding 30, spacing 40 ]
             [ aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
-            , productTable ToggleSort DisplayImage model.currentDate sortDescription products
+            , productTable ToggleSort DisplayImage currentDate sortDescription products
             ]
         )
+
+
+currentDate =
+    Date.fromCalendarDate 1 Jan 2001
+
+
+products : List Product
+products =
+    let
+        product : Product
+        product =
+            { id = 1
+            , source = "Hannants"
+            , manufacturer = "Eduard"
+            , product_code = "P00001"
+            , description = "Eduard Spitfire"
+            , scale = "1:72"
+            , category = "Kit"
+            , url = "https://www.hannants.co.uk/"
+            , image_url = Nothing
+            , price = "475,21 Kč"
+            , display_short_description = False
+            , indexed = True
+            , first_seen = currentDate
+            }
+    in
+    [ product ]
