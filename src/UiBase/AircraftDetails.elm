@@ -15,7 +15,7 @@ import List exposing (concatMap)
 import String exposing (join)
 import UiBase.AircraftTypes exposing (RelatedToAircraft, TypedAircraftData, TypedAircraftList, aircraftTypeString, isEmpty, toTypedList)
 import UiBase.RelatedItemButtons exposing (relatedItemButton)
-import UiBase.Sizes exposing (extraLargeFontSize, normalFontSize, superLargeFontSize)
+import UiBase.Sizes exposing (extraLargeFontSize, normalFontSize, smallFontSize, superLargeFontSize)
 import Vector3 exposing (toList)
 
 
@@ -73,7 +73,7 @@ relatedItemsListAsRow getRelatedAircraftMsg names =
 relatedItemsListRow : (TypedAircraftData -> msg) -> TypedAircraftList -> Element msg
 relatedItemsListRow getRelatedAircraftMsg typedAircraftList =
     if isEmpty typedAircraftList then
-        row [] [ text "None" ]
+        row [ paddingXY 5 0 ] [ el [ smallFontSize ] (text "None") ]
 
     else
         relatedItemsListAsRow getRelatedAircraftMsg typedAircraftList
