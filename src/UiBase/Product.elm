@@ -1,4 +1,7 @@
-module UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection, toggleSort)
+module UiBase.Product exposing
+    ( Product
+    , SortDirection(..), SortDescription, sortDirection, toggleSort
+    )
 
 {-| Provide Product type and functions for sorting lists of products
 
@@ -6,6 +9,7 @@ module UiBase.Product exposing (Product, SortDescription, SortDirection(..), sor
 # Product
 
 @docs Product
+
 
 # Sorting
 
@@ -32,15 +36,17 @@ type alias Product =
     , display_short_description : Bool
     , indexed : Bool
     , first_seen : Date
+    , last_price_update : Date
     }
+
 
 {-| Possible sort directions
 -}
-
 type SortDirection
     = Ascending
     | Descending
     | Unsorted
+
 
 {-| Details of what column is currently sorted, and how to sort it
 -}
@@ -49,6 +55,7 @@ type alias SortDescription =
     , accessor : Product -> String
     , direction : SortDirection
     }
+
 
 {-| Given a column name and the current sort description, determine the appropriate sort direction
 -}
@@ -59,6 +66,7 @@ sortDirection columnName sortDescription =
 
     else
         Unsorted
+
 
 {-| Given a column name to sort on and the current sort description, determine the new sort description
 -}

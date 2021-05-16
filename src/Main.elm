@@ -123,6 +123,7 @@ products =
             , display_short_description = False
             , indexed = True
             , first_seen = currentDate
+            , last_price_update = currentDate
             }
     in
     [ product ]
