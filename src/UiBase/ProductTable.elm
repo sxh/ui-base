@@ -35,11 +35,15 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
             , textColumn toggleSort 3 (productTextToLink .product_code) "Code" .product_code sortDescription
             , textColumn toggleSort 16 (productTableDescriptionElement currentDate) "Description" .description sortDescription
             , textColumn toggleSort 1 (productTextToLink .scale) "Scale" .scale sortDescription
-            , textColumn toggleSort 1 (productTextToLink (.price >> nonBreakingSpaces)) "Price" .price sortDescription
+            , textColumn toggleSort 1 priceColumnContent "Price" .price sortDescription
             , textColumn toggleSort 4 (productTextToLink .category) "Category" .category sortDescription
             , productColumn 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url)
             ]
         }
+
+
+priceColumnContent product =
+    product.price |> nonBreakingSpaces |> text |> productLink product
 
 
 nonBreakingSpaces : String -> String
@@ -96,7 +100,12 @@ productTextToLink selector product =
     product
         |> selector
         |> text
-        |> (\text -> link [ mouseOver [ Font.color cornflowerblue ] ] { url = product.url, label = text })
+        |> productLink product
+
+
+productLink : { a | url : String } -> Element msg -> Element msg
+productLink product labelContent =
+    link [ mouseOver [ Font.color cornflowerblue ] ] { url = product.url, label = labelContent }
 
 
 {-| Single text cell
