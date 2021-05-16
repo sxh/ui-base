@@ -11,7 +11,7 @@ module UiBase.ProductTable exposing (productTable)
 
 import Colors.Opaque exposing (cornflowerblue, skyblue, white)
 import Date exposing (Date, Unit(..))
-import Element exposing (Attribute, Color, Element, IndexedColumn, centerY, el, fill, fillPortion, height, htmlAttribute, image, link, maximum, mouseOver, none, padding, paddingEach, paragraph, px, row, shrink, spacing, text, width)
+import Element exposing (Attribute, Color, Element, IndexedColumn, centerX, centerY, column, el, fill, fillPortion, height, htmlAttribute, image, link, maximum, mouseOver, none, padding, paddingEach, paragraph, px, row, shrink, spacing, text, width)
 import Element.Background as Background
 import Element.Events exposing (onClick)
 import Element.Font as Font
@@ -42,8 +42,26 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
         }
 
 
+priceColumnContent : Product -> Element msg
 priceColumnContent product =
-    product.price |> nonBreakingSpaces |> text |> productLink product
+    let
+        priceRow =
+            product.price
+                |> nonBreakingSpaces
+                |> text
+                |> productLink product
+                |> el [ centerX ]
+
+        dateRow =
+            product.last_price_update
+                |> Date.format "d MMM YYYY"
+                |> (\date -> "(" ++ date ++ ")")
+                |> nonBreakingSpaces
+                |> text
+                |> productLink product
+                |> el [ centerX ]
+    in
+    column [] [ priceRow, dateRow ]
 
 
 nonBreakingSpaces : String -> String

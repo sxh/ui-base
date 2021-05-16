@@ -102,7 +102,7 @@ view _ =
 
 
 currentDate =
-    Date.fromCalendarDate 1 Jan 2001
+    Date.fromCalendarDate 2021 Jan 1
 
 
 products : List Product
