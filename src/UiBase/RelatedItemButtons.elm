@@ -10,7 +10,7 @@ module UiBase.RelatedItemButtons exposing (searchResultButton, relatedItemButton
 -}
 
 import Colors.Opaque exposing (royalblue)
-import Element exposing (Element, el, mouseOver, padding, paddingXY, row, text)
+import Element exposing (Element, el, mouseOver, padding, paddingXY, text)
 import Element.Background as Background
 import Element.Border exposing (rounded)
 import Element.Events exposing (onClick)
@@ -27,7 +27,7 @@ import UiBase.FontSizes exposing (normalFontSize)
 searchResultButton : (TypedAircraftData -> msg) -> TypedAircraftData -> Element msg
 searchResultButton event data =
     -- need to wrap this in a column that has the XY padding
-    row
+    el
         [ normalFontSize
         , Font.color navBackground
         , paddingXY 20 2
@@ -35,7 +35,11 @@ searchResultButton event data =
         , Font.color navBackground
         , mouseOver [ Background.color royalblue ]
         ]
-        [ button [] { onPress = Just (event data), label = text data.aircraftData.name } ]
+        (button []
+            { onPress = Just (event data)
+            , label = text data.aircraftData.name
+            }
+        )
 
 
 {-| Related item button

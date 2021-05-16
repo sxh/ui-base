@@ -70,4 +70,12 @@ sizedActionButton event buttonLabel fontSize paddingSize =
 -}
 pageSelectButton : msg -> String -> Element msg
 pageSelectButton event buttonLabel =
-    el [ normalFontSize, alignRight, padding 8, onClick event, rounded 10, mouseOver [ Background.color navBackground ] ] (text buttonLabel)
+    el
+        [ normalFontSize
+        , alignRight
+        , padding 8
+        , onClick event
+        , rounded 10
+        , mouseOver [ Background.color navBackground ]
+        ]
+        (text buttonLabel)

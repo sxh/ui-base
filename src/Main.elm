@@ -6,10 +6,12 @@ import Element exposing (column, layout, padding, spacing)
 import Html exposing (Html)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
-import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, TypedAircraftData, TypedAircraftList)
+import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
 import UiBase.ProductTable exposing (productTable)
+import UiBase.SearchResults exposing (searchAircraftList)
 import Vector3
+import Vector4
 
 
 main =
@@ -53,6 +55,10 @@ view _ =
         base =
             TypedAircraftData ManufacturerType supermarine
 
+        noManufacturers : TypedAircraftList
+        noManufacturers =
+            TypedAircraftList ManufacturerType []
+
         someAircraft : TypedAircraftList
         someAircraft =
             TypedAircraftList AircraftType [ spitfire ]
@@ -65,13 +71,21 @@ view _ =
         noCommonNames =
             TypedAircraftList CommonNameType []
 
-        relatedLists : Vector3.Vector3 TypedAircraftList
-        relatedLists =
+        relatedToManufacturerLists : Vector3.Vector3 TypedAircraftList
+        relatedToManufacturerLists =
             Vector3.from3 someAircraft noVariants noCommonNames
+
+        relatedToSearchLists : Vector4.Vector4 TypedAircraftList
+        relatedToSearchLists =
+            Vector4.from4 noManufacturers someAircraft noVariants noCommonNames
 
         relatedAircraftData : RelatedToAircraft
         relatedAircraftData =
-            RelatedToAircraft base relatedLists
+            RelatedToAircraft base relatedToManufacturerLists
+
+        relatedSearchData : RelatedToSearch
+        relatedSearchData =
+            RelatedToSearch relatedToSearchLists
 
         sortDescription : SortDescription
         sortDescription =
@@ -79,7 +93,8 @@ view _ =
     in
     layout []
         (column [ padding 30, spacing 40 ]
-            [ aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
+            [ searchAircraftList SelectAircraft (Just relatedSearchData)
+            , aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
             , productTable ToggleSort DisplayImage currentDate sortDescription products
             ]
