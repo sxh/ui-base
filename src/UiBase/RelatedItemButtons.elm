@@ -15,31 +15,17 @@ import Element.Background as Background
 import Element.Border exposing (rounded)
 import Element.Events exposing (onClick)
 import Element.Font as Font
-import Element.Input exposing (button)
 import UiBase.AircraftTypes exposing (TypedAircraftData)
+import UiBase.Buttons exposing (highlightingButton)
 import UiBase.Colors exposing (navBackground, navTextColour)
-import UiBase.Constants exposing (defaultRounding)
-import UiBase.FontSizes exposing (normalFontSize)
 
 
 {-| Search result button
 -}
 searchResultButton : (TypedAircraftData -> msg) -> TypedAircraftData -> Element msg
-searchResultButton event data =
+searchResultButton event typedAircraft =
     -- need to wrap this in a column that has the XY padding
-    el
-        [ normalFontSize
-        , Font.color navBackground
-        , paddingXY 20 2
-        , rounded defaultRounding
-        , Font.color navBackground
-        , mouseOver [ Background.color royalblue ]
-        ]
-        (button []
-            { onPress = Just (event data)
-            , label = text data.aircraftData.name
-            }
-        )
+    el [ paddingXY 20 2 ] (highlightingButton (event typedAircraft) typedAircraft.aircraftData.name)
 
 
 {-| Related item button
