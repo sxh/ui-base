@@ -35,7 +35,13 @@ type alias ProductColumnDescription msg =
 productTable : (String -> (Product -> String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
 productTable toggleSort setDisplayImage currentDate sortDescription products =
     let
-        textColumn proportion contentBuilder headingText accessor =
+        textColumnDescription :
+            Int
+            -> String.String
+            -> (Product -> String.String)
+            -> (Product -> Element msg)
+            -> ProductColumnDescription msg
+        textColumnDescription proportion headingText accessor contentBuilder =
             let
                 sortableTextColumnHeading : Element msg
                 sortableTextColumnHeading =
@@ -48,18 +54,18 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
                             ]
                         )
             in
-            productColumn (ProductColumnDescription proportion sortableTextColumnHeading (textCell contentBuilder))
+            ProductColumnDescription proportion sortableTextColumnHeading (textCell contentBuilder)
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
         , columns =
-            [ textColumn 3 (productTextToLink .source) "Source" .source
-            , textColumn 3 (productTextToLink .manufacturer) "Manufacturer" .manufacturer
-            , textColumn 3 (productTextToLink .product_code) "Code" .product_code
-            , textColumn 16 (productTableDescriptionElement currentDate) "Description" .description
-            , textColumn 1 (productTextToLink .scale) "Scale" .scale
-            , textColumn 1 priceColumnContent "Price" .price
-            , textColumn 4 (productTextToLink .category) "Category" .category
+            [ productColumn (textColumnDescription 3 "Source" .source (productTextToLink .source))
+            , productColumn (textColumnDescription 3 "Manufacturer" .manufacturer (productTextToLink .manufacturer))
+            , productColumn (textColumnDescription 3 "Code" .product_code (productTextToLink .product_code))
+            , productColumn (textColumnDescription 16 "Description" .description (productTableDescriptionElement currentDate))
+            , productColumn (textColumnDescription 1 "Scale" .scale (productTextToLink .scale))
+            , productColumn (textColumnDescription 1 "Price" .price priceColumnContent)
+            , productColumn (textColumnDescription 4 "Category" .category (productTextToLink .category))
             , productColumn (ProductColumnDescription 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url))
             ]
         }
