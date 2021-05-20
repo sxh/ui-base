@@ -30,45 +30,74 @@ type alias ProductColumnDescription msg =
     }
 
 
+type alias TextColumnDescription msg =
+    { proportion : Int
+    , heading : Element msg
+    , cellContent : Product -> Element msg
+    }
+
+
+asProductColumnDescription : TextColumnDescription msg -> ProductColumnDescription msg
+asProductColumnDescription textColumnDescription =
+    { proportion = textColumnDescription.proportion
+    , heading = textColumnDescription.heading
+    , cellContent = textColumnDescription.cellContent
+    }
+
+
 {-| The overall table
 -}
 productTable : (String -> (Product -> String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
 productTable toggleSort setDisplayImage currentDate sortDescription products =
-    let
-        textColumnDescription :
-            Int
-            -> String.String
-            -> (Product -> String.String)
-            -> (Product -> Element msg)
-            -> ProductColumnDescription msg
-        textColumnDescription proportion headingText accessor contentBuilder =
-            let
-                sortableTextColumnHeading : Element msg
-                sortableTextColumnHeading =
-                    columnHeading
-                        [ onClick (toggleSort headingText accessor) ]
-                        (row [ spacing 5 ]
-                            [ text headingText
-                            , sortIndicator headingText sortDescription
-                            , text "toggle"
-                            ]
-                        )
-            in
-            ProductColumnDescription proportion sortableTextColumnHeading (textCell contentBuilder)
-    in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
         , columns =
-            [ productColumn (textColumnDescription 3 "Source" .source (productTextToLink .source))
-            , productColumn (textColumnDescription 3 "Manufacturer" .manufacturer (productTextToLink .manufacturer))
-            , productColumn (textColumnDescription 3 "Code" .product_code (productTextToLink .product_code))
-            , productColumn (textColumnDescription 16 "Description" .description (productTableDescriptionElement currentDate))
-            , productColumn (textColumnDescription 1 "Scale" .scale (productTextToLink .scale))
-            , productColumn (textColumnDescription 1 "Price" .price priceColumnContent)
-            , productColumn (textColumnDescription 4 "Category" .category (productTextToLink .category))
-            , productColumn (ProductColumnDescription 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url))
+            [ TextColumnDescription 3
+                (sortableTextColumnHeading toggleSort "Source" .source sortDescription)
+                (productTextToLink .source |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 3
+                (sortableTextColumnHeading toggleSort "Manufacturer" .manufacturer sortDescription)
+                (productTextToLink .manufacturer |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 3
+                (sortableTextColumnHeading toggleSort "Code" .product_code sortDescription)
+                (productTextToLink .product_code |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 16
+                (sortableTextColumnHeading toggleSort "Description" .description sortDescription)
+                (productTableDescriptionElement currentDate |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 1
+                (sortableTextColumnHeading toggleSort "Scale" .scale sortDescription)
+                (productTextToLink .scale |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 1
+                (sortableTextColumnHeading toggleSort "Price" .price sortDescription)
+                (priceColumnContent |> textCell)
+                |> asProductColumnDescription
+            , TextColumnDescription 4
+                (sortableTextColumnHeading toggleSort "Category" .category sortDescription)
+                (productTextToLink .category |> textCell)
+                |> asProductColumnDescription
+            , ProductColumnDescription 4
+                (columnHeading [] (text "Image"))
+                (imageCell setDisplayImage .image_url)
             ]
+                |> List.map productColumn
         }
+
+
+sortableTextColumnHeading : (String.String -> c -> msg) -> String.String -> c -> SortDescription -> Element msg
+sortableTextColumnHeading toggleSort headingText accessor sortDescription =
+    columnHeading
+        [ onClick (toggleSort headingText accessor) ]
+        (row [ spacing 5 ]
+            [ text headingText
+            , sortIndicator headingText sortDescription
+            , text "toggle"
+            ]
+        )
 
 
 priceColumnContent : Product -> Element msg
