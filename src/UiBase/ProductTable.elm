@@ -23,6 +23,13 @@ import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sor
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 
+type alias ProductColumnDescription msg =
+    { proportion : Int
+    , heading : Element msg
+    , cellContent : Product -> Element msg
+    }
+
+
 {-| The overall table
 -}
 productTable : (String -> (Product -> String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
@@ -30,7 +37,8 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
     let
         textColumn proportion contentBuilder headingText accessor =
             let
-                completeColumnHeading =
+                sortableTextColumnHeading : Element msg
+                sortableTextColumnHeading =
                     columnHeading
                         [ onClick (toggleSort headingText accessor) ]
                         (row [ spacing 5 ]
@@ -40,7 +48,7 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
                             ]
                         )
             in
-            productColumn proportion completeColumnHeading (textCell contentBuilder)
+            productColumn (ProductColumnDescription proportion sortableTextColumnHeading (textCell contentBuilder))
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
@@ -52,7 +60,7 @@ productTable toggleSort setDisplayImage currentDate sortDescription products =
             , textColumn 1 (productTextToLink .scale) "Scale" .scale
             , textColumn 1 priceColumnContent "Price" .price
             , textColumn 4 (productTextToLink .category) "Category" .category
-            , productColumn 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url)
+            , productColumn (ProductColumnDescription 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url))
             ]
         }
 
@@ -152,13 +160,13 @@ textCell contentBuilder product =
 
 {-| Single column
 -}
-productColumn : Int -> Element msg -> (Product -> Element msg) -> IndexedColumn Product msg
-productColumn proportion headerContent cellContent =
-    { header = headerContent
-    , width = fillPortion proportion
+productColumn : ProductColumnDescription msg -> IndexedColumn Product msg
+productColumn columnDefinition =
+    { header = columnDefinition.heading
+    , width = fillPortion columnDefinition.proportion
     , view =
         \index product ->
-            cellContent product
+            columnDefinition.cellContent product
                 |> el [ centerY ]
                 |> el [ height fill, Background.color (productRowColour index), padding 8 ]
     }
