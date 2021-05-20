@@ -1,9 +1,13 @@
 module Main exposing (..)
 
+import Accessibility.Styled exposing (toUnstyled)
 import Browser
+import Css exposing (backgroundColor, borderColor, color, rgb)
 import Date exposing (Date)
-import Element exposing (column, layout, padding, spacing)
+import Element exposing (column, html, layout, padding, spacing, text)
 import Html exposing (Html)
+import Nri.Ui.ClickableText.V3 as ClickableText
+import Nri.Ui.Tooltip.V2 as Tooltip exposing (containerCss, css, onRight, plaintext, toggleTip)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
@@ -22,26 +26,30 @@ type Msg
     = SelectAircraft TypedAircraftData
     | ToggleSort String (Product -> String)
     | DisplayImage Int
+    | ToggleTip Bool
 
 
 type alias Model =
-    { message : String }
+    { message : String, toolTipOpen : Bool }
 
 
 init : Model
 init =
-    { message = "Hello World" }
+    { message = "Hello World", toolTipOpen = False }
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
+        ToggleTip value ->
+            { model | toolTipOpen = value }
+
         _ ->
             model
 
 
 view : Model -> Html Msg
-view _ =
+view model =
     let
         supermarine : GenericAircraftData
         supermarine =
@@ -90,10 +98,35 @@ view _ =
         sortDescription : SortDescription
         sortDescription =
             SortDescription "Description" .description Ascending
+
+        example2 =
+            toggleTip { label = "Some label" }
+                [ onRight
+                , plaintext "Bob and more"
+                , Tooltip.onHover ToggleTip
+                , Tooltip.open model.toolTipOpen
+                , css
+                    [ -- there is something seriously weird going on here with certain values
+                      Css.backgroundColor (Css.rgb 255 255 254)
+                    , Css.color (Css.rgb 0 0 255)
+
+                    --, Css.outlineColor (Css.rgb 255 0 0)
+                    , Css.borderWidth (Css.px 4)
+                    , Css.borderColor (Css.rgb 0 255 0)
+                    ]
+                ]
+                |> toUnstyled
+                |> html
+
+        --
+        --other =
+        --    tip |> html
     in
     layout []
         (column [ padding 30, spacing 40 ]
-            [ searchAircraftList SelectAircraft (Just relatedSearchData)
+            [ text "Something to create some space"
+            , example2
+            , searchAircraftList SelectAircraft (Just relatedSearchData)
             , aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
             , productTable ToggleSort DisplayImage currentDate sortDescription products
