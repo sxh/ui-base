@@ -1,18 +1,13 @@
 module Main exposing (..)
 
-import Accessibility.Styled exposing (toUnstyled)
 import Browser
-import Colors.Opaque
-import Css exposing (backgroundColor, borderColor, color, rgb)
 import Date exposing (Date)
-import Element exposing (column, html, layout, padding, spacing, text)
+import Element exposing (column, layout, padding, spacing, text)
 import Html exposing (Html)
-import Nri.Ui.Palette.V1 exposing (darkGray)
-import Nri.Ui.Tooltip.V2 as Tooltip exposing (containerCss, css, fitToContent, onRight, plaintext, smallPadding, toggleTip)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
-import UiBase.Colors exposing (navBackground, toCssColor)
+import UiBase.InfoPopups exposing (example2)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
 import UiBase.ProductTable exposing (productTable)
 import UiBase.SearchResults exposing (searchAircraftList)
@@ -100,33 +95,11 @@ view model =
         sortDescription : SortDescription
         sortDescription =
             SortDescription "Description" .description Ascending
-
-        example2 =
-            toggleTip { label = "Some label" }
-                [ onRight
-                , plaintext "Bob and more"
-                , Tooltip.onHover ToggleTip
-                , Tooltip.open model.toolTipOpen
-                , smallPadding
-                , fitToContent
-                , css
-                    [ -- there is something seriously weird going on here with certain values
-                      Css.backgroundColor (Colors.Opaque.white |> toCssColor)
-                    , Css.color (Colors.Opaque.darkslategrey |> toCssColor)
-                    , Css.borderColor (navBackground |> toCssColor)
-                    ]
-                ]
-                |> toUnstyled
-                |> html
-
-        --
-        --other =
-        --    tip |> html
     in
     layout []
         (column [ padding 30, spacing 40 ]
             [ text "Something to create some space"
-            , example2
+            , example2 ToggleTip model.toolTipOpen
             , searchAircraftList SelectAircraft (Just relatedSearchData)
             , aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
