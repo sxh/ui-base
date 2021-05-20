@@ -27,16 +27,31 @@ import UiBase.SvgExtensions exposing (downArrow, upArrow)
 -}
 productTable : (String -> (Product -> String) -> msg) -> (Int -> msg) -> Date -> SortDescription -> List Product -> Element msg
 productTable toggleSort setDisplayImage currentDate sortDescription products =
+    let
+        textColumn proportion contentBuilder headingText accessor =
+            let
+                completeColumnHeading =
+                    columnHeading
+                        [ onClick (toggleSort headingText accessor) ]
+                        (row [ spacing 5 ]
+                            [ text headingText
+                            , sortIndicator headingText sortDescription
+                            , text "toggle"
+                            ]
+                        )
+            in
+            productColumn proportion completeColumnHeading (textCell contentBuilder)
+    in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
         , columns =
-            [ textColumn toggleSort 3 (productTextToLink .source) "Source" .source sortDescription
-            , textColumn toggleSort 3 (productTextToLink .manufacturer) "Manufacturer" .manufacturer sortDescription
-            , textColumn toggleSort 3 (productTextToLink .product_code) "Code" .product_code sortDescription
-            , textColumn toggleSort 16 (productTableDescriptionElement currentDate) "Description" .description sortDescription
-            , textColumn toggleSort 1 (productTextToLink .scale) "Scale" .scale sortDescription
-            , textColumn toggleSort 1 priceColumnContent "Price" .price sortDescription
-            , textColumn toggleSort 4 (productTextToLink .category) "Category" .category sortDescription
+            [ textColumn 3 (productTextToLink .source) "Source" .source
+            , textColumn 3 (productTextToLink .manufacturer) "Manufacturer" .manufacturer
+            , textColumn 3 (productTextToLink .product_code) "Code" .product_code
+            , textColumn 16 (productTableDescriptionElement currentDate) "Description" .description
+            , textColumn 1 (productTextToLink .scale) "Scale" .scale
+            , textColumn 1 priceColumnContent "Price" .price
+            , textColumn 4 (productTextToLink .category) "Category" .category
             , productColumn 4 (columnHeading [] (text "Image")) (imageCell setDisplayImage .image_url)
             ]
         }
@@ -182,26 +197,13 @@ productTableDescriptionElement currentDate product =
             productTextToLink .description product
 
 
-{-| Single text column
--}
-textColumn : (String.String -> (Product -> String.String) -> msg) -> Int -> (Product -> Element msg) -> String -> (Product -> String) -> SortDescription -> IndexedColumn Product msg
-textColumn toggleSort proportion contentBuilder headingText accessor sortDescription =
-    let
-        sortIndicator : Element msg
-        sortIndicator =
-            case sortDirection headingText sortDescription of
-                Ascending ->
-                    upArrow
+sortIndicator headingText sortDescription =
+    case sortDirection headingText sortDescription of
+        Ascending ->
+            upArrow
 
-                Descending ->
-                    downArrow
+        Descending ->
+            downArrow
 
-                Unsorted ->
-                    none
-    in
-    productColumn proportion
-        (columnHeading
-            [ onClick (toggleSort headingText accessor) ]
-            (row [ spacing 5 ] [ text headingText, sortIndicator ])
-        )
-        (textCell contentBuilder)
+        Unsorted ->
+            none
