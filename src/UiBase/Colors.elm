@@ -1,4 +1,7 @@
-module UiBase.Colors exposing (navBackground, navTextColour)
+module UiBase.Colors exposing
+    ( navBackground, navTextColour
+    , toCssColor
+    )
 
 {-| Predefine some colors by role. Uses phollyer/elm-ui-colors, which I recommend for
 named colors.
@@ -11,18 +14,31 @@ named colors.
 -}
 
 import Colors.Opaque exposing (deepskyblue, white)
-import Element exposing (Color)
+import Css
+import Element exposing (Color, toRgb)
 
 
 {-| Return navigation background colour
 -}
-navBackground : Color
+navBackground : Element.Color
 navBackground =
     deepskyblue
 
 
 {-| Return navigation text colour
 -}
-navTextColour : Color
+navTextColour : Element.Color
 navTextColour =
     white
+
+
+toCssColor : Element.Color -> Css.Color
+toCssColor color =
+    color
+        |> toRgb
+        |> (\rgbFloats ->
+                Css.rgb
+                    (rgbFloats.red * 255 |> round)
+                    (rgbFloats.green * 255 |> round)
+                    (rgbFloats.blue * 255 |> round)
+           )

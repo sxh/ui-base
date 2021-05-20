@@ -2,15 +2,17 @@ module Main exposing (..)
 
 import Accessibility.Styled exposing (toUnstyled)
 import Browser
+import Colors.Opaque
 import Css exposing (backgroundColor, borderColor, color, rgb)
 import Date exposing (Date)
 import Element exposing (column, html, layout, padding, spacing, text)
 import Html exposing (Html)
-import Nri.Ui.ClickableText.V3 as ClickableText
-import Nri.Ui.Tooltip.V2 as Tooltip exposing (containerCss, css, onRight, plaintext, toggleTip)
+import Nri.Ui.Palette.V1 exposing (darkGray)
+import Nri.Ui.Tooltip.V2 as Tooltip exposing (containerCss, css, fitToContent, onRight, plaintext, smallPadding, toggleTip)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
+import UiBase.Colors exposing (navBackground, toCssColor)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
 import UiBase.ProductTable exposing (productTable)
 import UiBase.SearchResults exposing (searchAircraftList)
@@ -105,14 +107,13 @@ view model =
                 , plaintext "Bob and more"
                 , Tooltip.onHover ToggleTip
                 , Tooltip.open model.toolTipOpen
+                , smallPadding
+                , fitToContent
                 , css
                     [ -- there is something seriously weird going on here with certain values
-                      Css.backgroundColor (Css.rgb 255 255 254)
-                    , Css.color (Css.rgb 0 0 255)
-
-                    --, Css.outlineColor (Css.rgb 255 0 0)
-                    , Css.borderWidth (Css.px 4)
-                    , Css.borderColor (Css.rgb 0 255 0)
+                      Css.backgroundColor (Colors.Opaque.white |> toCssColor)
+                    , Css.color (Colors.Opaque.darkslategrey |> toCssColor)
+                    , Css.borderColor (navBackground |> toCssColor)
                     ]
                 ]
                 |> toUnstyled
