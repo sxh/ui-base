@@ -10,7 +10,7 @@ import UiBase.Colors exposing (navBackground, toCssColor)
 
 toolTip : String -> (Bool -> msg) -> Bool -> Element.Element msg
 toolTip content toggleMsg open =
-    Tooltip.toggleTip { label = "Some label" }
+    Tooltip.toggleTip { label = content }
         [ Tooltip.onTop
         , Tooltip.plaintext content
         , Tooltip.onHover toggleMsg

@@ -2,8 +2,10 @@ module Main exposing (..)
 
 import Browser
 import Date exposing (Date)
+import Dict exposing (Dict, get, insert)
 import Element exposing (column, layout, padding, spacing)
 import Html exposing (Html)
+import Maybe exposing (withDefault)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
@@ -22,23 +24,23 @@ type Msg
     = SelectAircraft TypedAircraftData
     | ToggleSort String (Product -> String)
     | DisplayImage Int
-    | ToggleTip Bool
+    | ToggleTip String Bool
 
 
 type alias Model =
-    { message : String, toolTipOpen : Bool }
+    { message : String, toolTipsOpen : Dict String Bool }
 
 
 init : Model
 init =
-    { message = "Hello World", toolTipOpen = False }
+    { message = "Hello World", toolTipsOpen = Dict.empty |> insert "Source" False }
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ToggleTip value ->
-            { model | toolTipOpen = value }
+        ToggleTip key value ->
+            { model | toolTipsOpen = model.toolTipsOpen |> insert key value }
 
         _ ->
             model
@@ -104,7 +106,7 @@ view model =
             { sorting = productTableSorting
             , setDisplayImage = DisplayImage
             , currentDate = currentDate
-            , sourceHelpControl = UiBase.ProductTable.ProductTableColumnHelpControl ToggleTip model.toolTipOpen
+            , sourceHelpControl = helpControl "Source" model
             }
     in
     layout []
@@ -115,6 +117,11 @@ view model =
             , productTable productTableDescription products
             ]
         )
+
+
+helpControl : String -> { a | toolTipsOpen : Dict String Bool } -> UiBase.ProductTable.ProductTableColumnHelpControl Msg
+helpControl key model =
+    UiBase.ProductTable.ProductTableColumnHelpControl (ToggleTip key) (model.toolTipsOpen |> get key |> withDefault False)
 
 
 currentDate =
