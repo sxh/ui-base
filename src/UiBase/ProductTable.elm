@@ -54,49 +54,43 @@ type alias ProductTableColumnHelpControl msg =
     }
 
 
+withHelp : String -> ProductTableColumnHelpControl msg -> Element msg -> Element msg
+withHelp content productTableColumnHelpControl element =
+    let
+        columnHelp : String -> ProductTableColumnHelpControl msg -> Element msg
+        columnHelp contentString info =
+            toolTip contentString info.toggle info.state
+    in
+    row [] [ element, columnHelp content productTableColumnHelpControl ]
+
+
 {-| The overall table
 -}
 productTable : ProductTableDescription msg -> List Product -> Element msg
 productTable productTableDescription products =
     let
-        columnHelp : String -> ProductTableColumnHelpControl msg -> Element msg
-        columnHelp content info =
-            toolTip content info.toggle info.state
+        sortableHeader =
+            sortableTextColumnHeading productTableDescription.sorting
+
+        textCellWithLink =
+            productTextToLink >> textCell
+
+        sellerHelp =
+            withHelp "Products are included from Ebay, Eduard, Hannants, KingKit and Models For Sale" productTableDescription.sourceHelpControl
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
         , columns =
-            [ ProductColumnDescription 3
-                (row
-                    []
-                    [ sortableTextColumnHeading productTableDescription.sorting "Source" .source
-                    , columnHelp "Seller of this product" productTableDescription.sourceHelpControl
-                    ]
-                )
-                (productTextToLink .source |> textCell)
-            , ProductColumnDescription 3
-                (sortableTextColumnHeading productTableDescription.sorting "Manufacturer" .manufacturer)
-                (productTextToLink .manufacturer |> textCell)
-            , ProductColumnDescription 3
-                (sortableTextColumnHeading productTableDescription.sorting "Code" .product_code)
-                (productTextToLink .product_code |> textCell)
-            , ProductColumnDescription 16
-                (sortableTextColumnHeading productTableDescription.sorting "Description" .description)
-                (productTableDescriptionElement productTableDescription.currentDate |> textCell)
-            , ProductColumnDescription 1
-                (sortableTextColumnHeading productTableDescription.sorting "Scale" .scale)
-                (productTextToLink .scale |> textCell)
-            , ProductColumnDescription 1
-                (sortableTextColumnHeading productTableDescription.sorting "Price" .price)
-                (priceColumnContent |> textCell)
-            , ProductColumnDescription 4
-                (sortableTextColumnHeading productTableDescription.sorting "Category" .category)
-                (productTextToLink .category |> textCell)
-            , ProductColumnDescription 4
-                (columnHeading [] (text "Image"))
-                (imageCell productTableDescription.setDisplayImage .image_url)
+            [ ProductColumnDescription 3 (sortableHeader "Source" .source |> sellerHelp) (textCellWithLink .source)
+            , ProductColumnDescription 3 (sortableHeader "Manufacturer" .manufacturer) (textCellWithLink .manufacturer)
+            , ProductColumnDescription 3 (sortableHeader "Code" .product_code) (textCellWithLink .product_code)
+            , ProductColumnDescription 16 (sortableHeader "Description" .description) (productTableDescription.currentDate |> productTableDescriptionElement)
+            , ProductColumnDescription 1 (sortableHeader "Scale" .scale) (textCellWithLink .scale)
+            , ProductColumnDescription 1 (sortableHeader "Price" .price) (priceColumnContent |> textCell)
+            , ProductColumnDescription 4 (sortableHeader "Category" .category) (textCellWithLink .category)
+            , ProductColumnDescription 4 (columnHeading [] (text "Image")) (imageCell productTableDescription.setDisplayImage .image_url)
             ]
-                |> List.map productColumn
+                |> List.map asProductColumn
         }
 
 
@@ -207,8 +201,8 @@ textCell contentBuilder product =
 
 {-| Single column
 -}
-productColumn : ProductColumnDescription msg -> IndexedColumn Product msg
-productColumn columnDefinition =
+asProductColumn : ProductColumnDescription msg -> IndexedColumn Product msg
+asProductColumn columnDefinition =
     { header = columnDefinition.heading
     , width = fillPortion columnDefinition.proportion
     , view =

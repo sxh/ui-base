@@ -121,7 +121,12 @@ view model =
 
 helpControl : String -> { a | toolTipsOpen : Dict String Bool } -> UiBase.ProductTable.ProductTableColumnHelpControl Msg
 helpControl key model =
-    UiBase.ProductTable.ProductTableColumnHelpControl (ToggleTip key) (model.toolTipsOpen |> get key |> withDefault False)
+    UiBase.ProductTable.ProductTableColumnHelpControl
+        (ToggleTip key)
+        (model.toolTipsOpen
+            |> get key
+            |> withDefault False
+        )
 
 
 currentDate =
