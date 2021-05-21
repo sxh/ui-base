@@ -100,7 +100,6 @@ sortableTextColumnHeading productTableSorting headingText accessor =
         (row [ spacing 5 ]
             [ text headingText
             , sortIndicator headingText productTableSorting.sortDescription
-            , text "toggle"
             ]
         )
 
