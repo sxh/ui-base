@@ -1,9 +1,10 @@
 module UiBase.InfoPopups exposing (HelpControl, withHelp)
 
-import Accessibility.Styled exposing (toUnstyled)
+import Accessibility.Styled exposing (br, text, toUnstyled)
 import Colors.Opaque
 import Css
 import Element exposing (Element, html, row)
+import List exposing (map)
 import Maybe exposing (withDefault)
 import Nri.Ui.Tooltip.V2 as Tooltip
 import UiBase.Colors exposing (navBackground, toCssColor)
@@ -15,21 +16,23 @@ type alias HelpControl msg =
     }
 
 
-withHelp : String -> Maybe (HelpControl msg) -> Element msg -> Element msg
+withHelp : List String -> Maybe (HelpControl msg) -> Element msg -> Element msg
 withHelp content helpControl element =
     let
-        columnHelp : String -> Maybe (HelpControl msg) -> Element msg
-        columnHelp contentString maybeInfo =
-            maybeInfo |> Maybe.map (\info -> toolTip contentString info.toggle info.state) |> withDefault Element.none
+        columnHelp : List String -> Maybe (HelpControl msg) -> Element msg
+        columnHelp contentList maybeInfo =
+            maybeInfo
+                |> Maybe.map (\info -> toolTip contentList info.toggle info.state)
+                |> withDefault Element.none
     in
     row [] [ element, columnHelp content helpControl ]
 
 
-toolTip : String -> (Bool -> msg) -> Bool -> Element.Element msg
+toolTip : List String -> (Bool -> msg) -> Bool -> Element.Element msg
 toolTip content toggleMsg open =
-    Tooltip.toggleTip { label = content }
+    Tooltip.toggleTip { label = "Help" }
         [ Tooltip.onTop
-        , Tooltip.plaintext content
+        , Tooltip.html (content |> map text |> List.intersperse (br []))
         , Tooltip.onHover toggleMsg
         , Tooltip.open open
         , Tooltip.smallPadding

@@ -61,10 +61,10 @@ productTable productTableDescription products =
             productTextToLink >> textCell
 
         sellerHelp =
-            withHelp "Products are included from Ebay, Eduard, Hannants, KingKit and Models For Sale" productTableDescription.sourceHelpControl
+            withHelp [ "Products are included from:", "- Ebay", "- Eduard", "- Hannants", "- KingKit", "- Models For Sale" ] productTableDescription.sourceHelpControl
 
         imageHelp =
-            withHelp "Click on the image and a larger version will be displayed (if it is available)" productTableDescription.imageHelpControl
+            withHelp [ "Click on the image and ", "a larger version will be displayed", "(if it is available)" ] productTableDescription.imageHelpControl
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
