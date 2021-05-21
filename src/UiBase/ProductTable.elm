@@ -83,7 +83,7 @@ productTable productTableDescription products =
             [ ProductColumnDescription 3 (sortableHeader "Source" .source |> sellerHelp) (textCellWithLink .source)
             , ProductColumnDescription 3 (sortableHeader "Manufacturer" .manufacturer) (textCellWithLink .manufacturer)
             , ProductColumnDescription 3 (sortableHeader "Code" .product_code) (textCellWithLink .product_code)
-            , ProductColumnDescription 16 (sortableHeader "Description" .description) (productTableDescription.currentDate |> productTableDescriptionElement)
+            , ProductColumnDescription 16 (sortableHeader "Description" .description) (productTableDescription.currentDate |> productTableDescriptionElement |> textCell)
             , ProductColumnDescription 1 (sortableHeader "Scale" .scale) (textCellWithLink .scale)
             , ProductColumnDescription 1 (sortableHeader "Price" .price) (priceColumnContent |> textCell)
             , ProductColumnDescription 4 (sortableHeader "Category" .category) (textCellWithLink .category)
@@ -173,23 +173,6 @@ imageCell setDisplayImage selector product =
         |> withDefault none
 
 
-{-| Link to the source page for the product
--}
-productTextToLink : (Product -> String) -> Product -> Element msg
-productTextToLink selector product =
-    let
-        contents =
-            product
-                |> selector
-                |> text
-                |> (\x ->
-                        paragraph [ spacing 10 ] [ x ]
-                   )
-                |> productLink product
-    in
-    column [ width fill ] [ contents ]
-
-
 productLink : { a | url : String } -> Element msg -> Element msg
 productLink product labelContent =
     link [ mouseOver [ Font.color cornflowerblue ] ] { url = product.url, label = labelContent }
@@ -202,6 +185,16 @@ textCell contentBuilder product =
     product
         |> contentBuilder
         |> (\x -> paragraph [ normalFontSize ] [ x ])
+
+
+{-| Link to the source page for the product
+-}
+productTextToLink : (Product -> String) -> Product -> Element msg
+productTextToLink selector product =
+    product
+        |> selector
+        |> text
+        |> productLink product
 
 
 {-| Single column
