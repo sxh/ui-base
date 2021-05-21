@@ -1,9 +1,14 @@
 module UiBase.ProductTable exposing
-    ( productTable
-    , ProductTableDescription, ProductTableSorting
+    ( ProductTableDescription, ProductTableSorting
+    , productTable
     )
 
 {-| Provide a consistent Product table experience
+
+
+# Description
+
+@docs ProductTableDescription, ProductTableSorting
 
 
 # Table
@@ -22,11 +27,13 @@ import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
 import String exposing (replace)
 import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
-import UiBase.InfoPopups exposing (HelpControl, withHelp)
+import UiBase.Help exposing (HelpControl, withHelp)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 
+{-| Three key attributes of each column
+-}
 type alias ProductColumnDescription msg =
     { proportion : Int
     , heading : Element msg
@@ -34,6 +41,8 @@ type alias ProductColumnDescription msg =
     }
 
 
+{-| Shared attributes and state/events that must be provided by provided by consumers
+-}
 type alias ProductTableDescription msg =
     { sorting : ProductTableSorting (Product -> String) msg
     , setDisplayImage : Int -> msg
@@ -43,6 +52,8 @@ type alias ProductTableDescription msg =
     }
 
 
+{-| Message used to change sorting direction, and the specification of the current sorting
+-}
 type alias ProductTableSorting c msg =
     { toggleSort : String -> c -> msg
     , sortDescription : SortDescription

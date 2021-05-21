@@ -3,13 +3,17 @@ module UiBase.Colors exposing
     , toCssColor
     )
 
-{-| Predefine some colors by role. Uses phollyer/elm-ui-colors, which I recommend for
-named colors.
+{-| Predefine some colors by role. Uses phollyer/elm-ui-colors, which provides named colors.
 
 
 # Colours by role
 
 @docs navBackground, navTextColour
+
+
+# Utilities
+
+@docs toCssColor
 
 -}
 
@@ -32,6 +36,8 @@ navTextColour =
     white
 
 
+{-| Convert an elm-ui color to a programmable css color
+-}
 toCssColor : Element.Color -> Css.Color
 toCssColor color =
     color
