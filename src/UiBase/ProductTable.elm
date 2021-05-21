@@ -1,6 +1,6 @@
 module UiBase.ProductTable exposing
     ( productTable
-    , ProductTableColumnInfo, ProductTableDescription, ProductTableSorting
+    , ProductTableColumnHelpControl, ProductTableDescription, ProductTableSorting
     )
 
 {-| Provide a consistent Product table experience
@@ -38,7 +38,7 @@ type alias ProductTableDescription msg =
     { sorting : ProductTableSorting (Product -> String) msg
     , setDisplayImage : Int -> msg
     , currentDate : Date
-    , sourceInfo : ProductTableColumnInfo msg
+    , sourceHelpControl : ProductTableColumnHelpControl msg
     }
 
 
@@ -48,9 +48,8 @@ type alias ProductTableSorting c msg =
     }
 
 
-type alias ProductTableColumnInfo msg =
-    { text : String
-    , toggle : Bool -> msg
+type alias ProductTableColumnHelpControl msg =
+    { toggle : Bool -> msg
     , state : Bool
     }
 
@@ -60,9 +59,9 @@ type alias ProductTableColumnInfo msg =
 productTable : ProductTableDescription msg -> List Product -> Element msg
 productTable productTableDescription products =
     let
-        columnToolTip : ProductTableColumnInfo msg -> Element msg
-        columnToolTip info =
-            toolTip info.text info.toggle info.state
+        columnHelp : String -> ProductTableColumnHelpControl msg -> Element msg
+        columnHelp content info =
+            toolTip content info.toggle info.state
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
@@ -71,7 +70,7 @@ productTable productTableDescription products =
                 (row
                     []
                     [ sortableTextColumnHeading productTableDescription.sorting "Source" .source
-                    , columnToolTip productTableDescription.sourceInfo
+                    , columnHelp "Seller of this product" productTableDescription.sourceHelpControl
                     ]
                 )
                 (productTextToLink .source |> textCell)

@@ -104,7 +104,7 @@ view model =
             { sorting = productTableSorting
             , setDisplayImage = DisplayImage
             , currentDate = currentDate
-            , sourceInfo = UiBase.ProductTable.ProductTableColumnInfo "Some content" ToggleTip model.toolTipOpen
+            , sourceHelpControl = UiBase.ProductTable.ProductTableColumnHelpControl ToggleTip model.toolTipOpen
             }
     in
     layout []
