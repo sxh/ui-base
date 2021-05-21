@@ -2,12 +2,11 @@ module Main exposing (..)
 
 import Browser
 import Date exposing (Date)
-import Element exposing (column, layout, padding, spacing, text)
+import Element exposing (column, layout, padding, spacing)
 import Html exposing (Html)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
-import UiBase.InfoPopups exposing (example2)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
 import UiBase.ProductTable exposing (productTable)
 import UiBase.SearchResults exposing (searchAircraftList)
@@ -105,13 +104,12 @@ view model =
             { sorting = productTableSorting
             , setDisplayImage = DisplayImage
             , currentDate = currentDate
+            , sourceInfo = UiBase.ProductTable.ProductTableColumnInfo "Some content" ToggleTip model.toolTipOpen
             }
     in
     layout []
         (column [ padding 30, spacing 40 ]
-            [ text "Something to create some space"
-            , example2 ToggleTip model.toolTipOpen
-            , searchAircraftList SelectAircraft (Just relatedSearchData)
+            [ searchAircraftList SelectAircraft (Just relatedSearchData)
             , aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
             , productTable productTableDescription products

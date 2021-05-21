@@ -1,6 +1,6 @@
 module UiBase.ProductTable exposing
     ( productTable
-    , ProductTableDescription, ProductTableSorting
+    , ProductTableColumnInfo, ProductTableDescription, ProductTableSorting
     )
 
 {-| Provide a consistent Product table experience
@@ -22,6 +22,7 @@ import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
 import String exposing (replace)
 import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
+import UiBase.InfoPopups exposing (toolTip)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
@@ -37,6 +38,7 @@ type alias ProductTableDescription msg =
     { sorting : ProductTableSorting (Product -> String) msg
     , setDisplayImage : Int -> msg
     , currentDate : Date
+    , sourceInfo : ProductTableColumnInfo msg
     }
 
 
@@ -46,15 +48,32 @@ type alias ProductTableSorting c msg =
     }
 
 
+type alias ProductTableColumnInfo msg =
+    { text : String
+    , toggle : Bool -> msg
+    , state : Bool
+    }
+
+
 {-| The overall table
 -}
 productTable : ProductTableDescription msg -> List Product -> Element msg
 productTable productTableDescription products =
+    let
+        columnToolTip : ProductTableColumnInfo msg -> Element msg
+        columnToolTip info =
+            toolTip info.text info.toggle info.state
+    in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
         , columns =
             [ ProductColumnDescription 3
-                (sortableTextColumnHeading productTableDescription.sorting "Source" .source)
+                (row
+                    []
+                    [ sortableTextColumnHeading productTableDescription.sorting "Source" .source
+                    , columnToolTip productTableDescription.sourceInfo
+                    ]
+                )
                 (productTextToLink .source |> textCell)
             , ProductColumnDescription 3
                 (sortableTextColumnHeading productTableDescription.sorting "Manufacturer" .manufacturer)

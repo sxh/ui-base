@@ -8,11 +8,11 @@ import Nri.Ui.Tooltip.V2 as Tooltip
 import UiBase.Colors exposing (navBackground, toCssColor)
 
 
-example2 : (Bool -> msg) -> Bool -> Element.Element msg
-example2 toggleMsg open =
+toolTip : String -> (Bool -> msg) -> Bool -> Element.Element msg
+toolTip content toggleMsg open =
     Tooltip.toggleTip { label = "Some label" }
-        [ Tooltip.onRight
-        , Tooltip.plaintext "Bob and more"
+        [ Tooltip.onTop
+        , Tooltip.plaintext content
         , Tooltip.onHover toggleMsg
         , Tooltip.open open
         , Tooltip.smallPadding
