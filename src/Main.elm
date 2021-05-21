@@ -95,6 +95,17 @@ view model =
         sortDescription : SortDescription
         sortDescription =
             SortDescription "Description" .description Ascending
+
+        productTableSorting =
+            { toggleSort = ToggleSort
+            , sortDescription = sortDescription
+            }
+
+        productTableDescription =
+            { sorting = productTableSorting
+            , setDisplayImage = DisplayImage
+            , currentDate = currentDate
+            }
     in
     layout []
         (column [ padding 30, spacing 40 ]
@@ -103,7 +114,7 @@ view model =
             , searchAircraftList SelectAircraft (Just relatedSearchData)
             , aircraftDetailsColumn SelectAircraft (Just relatedAircraftData)
             , aircraftDetailsColumn SelectAircraft Nothing
-            , productTable ToggleSort DisplayImage currentDate sortDescription products
+            , productTable productTableDescription products
             ]
         )
 
