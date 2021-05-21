@@ -9,6 +9,7 @@ import Maybe exposing (withDefault)
 import Time exposing (Month(..))
 import UiBase.AircraftDetails exposing (aircraftDetailsColumn)
 import UiBase.AircraftTypes exposing (AircraftType(..), GenericAircraftData, RelatedToAircraft, RelatedToSearch, TypedAircraftData, TypedAircraftList)
+import UiBase.InfoPopups exposing (HelpControl)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..))
 import UiBase.ProductTable exposing (productTable)
 import UiBase.SearchResults exposing (searchAircraftList)
@@ -106,7 +107,8 @@ view model =
             { sorting = productTableSorting
             , setDisplayImage = DisplayImage
             , currentDate = currentDate
-            , sourceHelpControl = helpControl "Source" model
+            , sourceHelpControl = Just (helpControl "Source" model)
+            , imageHelpControl = Nothing
             }
     in
     layout []
@@ -119,9 +121,9 @@ view model =
         )
 
 
-helpControl : String -> { a | toolTipsOpen : Dict String Bool } -> UiBase.ProductTable.ProductTableColumnHelpControl Msg
+helpControl : String -> { a | toolTipsOpen : Dict String Bool } -> HelpControl Msg
 helpControl key model =
-    UiBase.ProductTable.ProductTableColumnHelpControl
+    HelpControl
         (ToggleTip key)
         (model.toolTipsOpen
             |> get key

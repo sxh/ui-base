@@ -1,11 +1,28 @@
-module UiBase.InfoPopups exposing (..)
+module UiBase.InfoPopups exposing (HelpControl, withHelp)
 
 import Accessibility.Styled exposing (toUnstyled)
 import Colors.Opaque
 import Css
-import Element exposing (html)
+import Element exposing (Element, html, row)
+import Maybe exposing (withDefault)
 import Nri.Ui.Tooltip.V2 as Tooltip
 import UiBase.Colors exposing (navBackground, toCssColor)
+
+
+type alias HelpControl msg =
+    { toggle : Bool -> msg
+    , state : Bool
+    }
+
+
+withHelp : String -> Maybe (HelpControl msg) -> Element msg -> Element msg
+withHelp content helpControl element =
+    let
+        columnHelp : String -> Maybe (HelpControl msg) -> Element msg
+        columnHelp contentString maybeInfo =
+            maybeInfo |> Maybe.map (\info -> toolTip contentString info.toggle info.state) |> withDefault Element.none
+    in
+    row [] [ element, columnHelp content helpControl ]
 
 
 toolTip : String -> (Bool -> msg) -> Bool -> Element.Element msg

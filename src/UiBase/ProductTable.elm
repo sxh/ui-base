@@ -1,6 +1,6 @@
 module UiBase.ProductTable exposing
     ( productTable
-    , ProductTableColumnHelpControl, ProductTableDescription, ProductTableSorting
+    , ProductTableDescription, ProductTableSorting
     )
 
 {-| Provide a consistent Product table experience
@@ -22,7 +22,7 @@ import Html.Attributes exposing (name)
 import Maybe exposing (withDefault)
 import String exposing (replace)
 import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
-import UiBase.InfoPopups exposing (toolTip)
+import UiBase.InfoPopups exposing (HelpControl, withHelp)
 import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
@@ -38,7 +38,8 @@ type alias ProductTableDescription msg =
     { sorting : ProductTableSorting (Product -> String) msg
     , setDisplayImage : Int -> msg
     , currentDate : Date
-    , sourceHelpControl : ProductTableColumnHelpControl msg
+    , sourceHelpControl : Maybe (HelpControl msg)
+    , imageHelpControl : Maybe (HelpControl msg)
     }
 
 
@@ -46,22 +47,6 @@ type alias ProductTableSorting c msg =
     { toggleSort : String -> c -> msg
     , sortDescription : SortDescription
     }
-
-
-type alias ProductTableColumnHelpControl msg =
-    { toggle : Bool -> msg
-    , state : Bool
-    }
-
-
-withHelp : String -> ProductTableColumnHelpControl msg -> Element msg -> Element msg
-withHelp content productTableColumnHelpControl element =
-    let
-        columnHelp : String -> ProductTableColumnHelpControl msg -> Element msg
-        columnHelp contentString info =
-            toolTip contentString info.toggle info.state
-    in
-    row [] [ element, columnHelp content productTableColumnHelpControl ]
 
 
 {-| The overall table
@@ -77,6 +62,9 @@ productTable productTableDescription products =
 
         sellerHelp =
             withHelp "Products are included from Ebay, Eduard, Hannants, KingKit and Models For Sale" productTableDescription.sourceHelpControl
+
+        imageHelp =
+            withHelp "Click on the image and a larger version will be displayed (if it is available)" productTableDescription.imageHelpControl
     in
     Element.indexedTable [ width fill, spacing 2 ]
         { data = products
@@ -88,7 +76,7 @@ productTable productTableDescription products =
             , ProductColumnDescription 1 (sortableHeader "Scale" .scale) (textCellWithLink .scale)
             , ProductColumnDescription 1 (sortableHeader "Price" .price) (priceColumnContent |> textCell)
             , ProductColumnDescription 4 (sortableHeader "Category" .category) (textCellWithLink .category)
-            , ProductColumnDescription 4 (columnHeading [] (text "Image")) (imageCell productTableDescription.setDisplayImage .image_url)
+            , ProductColumnDescription 4 (columnHeading [] (text "Image") |> imageHelp) (imageCell productTableDescription.setDisplayImage .image_url)
             ]
                 |> List.map asProductColumn
         }
