@@ -144,7 +144,9 @@ products =
             , source = "Hannants"
             , manufacturer = "Eduard"
             , product_code = "P00001"
-            , description = "Eduard Spitfire"
+
+            -- use a very long description to test wrapping
+            , description = "History of RAF 19 Sqn 1935 - 91 (8) Gloster Gauntlet Mk.I K4095 Duxford 1935; North-American P-51B Mustang III FZ164 QV-V 'Wilf' Flt.Lt. T.H.Drinkwater RAF Gravesend 1944; Supermarine Spitfire Mk.XVIe TE470 QV-B RAF Biggin Hill 1946; de Havilland Hornet F.1 PX284/H RAF Linton-0n-Ouse 1946; Gloster Meteor F.8 WE863 Coronation Review RAF Odiham 1953; Hawker Hunter F.6 XG152/X RAF Church Fenton 1958; McDonnell-Douglas FGR.2 Phantom XV474/F RAF Wildenrath at Jubilee Review RAF Finningley 1977 green/grey camouflage; McDonnell-Douglas FGR.2 Phantom XV419/AA RAF Wildenrath 1991 Camouflaged Grey with Blue fin."
             , scale = "1:72"
             , category = "Kit"
             , url = "https://www.hannants.co.uk/"

@@ -177,10 +177,17 @@ imageCell setDisplayImage selector product =
 -}
 productTextToLink : (Product -> String) -> Product -> Element msg
 productTextToLink selector product =
-    product
-        |> selector
-        |> text
-        |> productLink product
+    let
+        contents =
+            product
+                |> selector
+                |> text
+                |> (\x ->
+                        paragraph [ spacing 10 ] [ x ]
+                   )
+                |> productLink product
+    in
+    column [ width fill ] [ contents ]
 
 
 productLink : { a | url : String } -> Element msg -> Element msg
