@@ -1,6 +1,7 @@
 module UiBase.Product exposing
     ( Product
     , SortDirection(..), SortDescription, sortDirection, toggleSort
+    , productSources
     )
 
 {-| Provide Product type and functions for sorting lists of products
@@ -14,6 +15,11 @@ module UiBase.Product exposing
 # Sorting
 
 @docs SortDirection, SortDescription, sortDirection, toggleSort
+
+
+# Utility
+
+@docs productSources
 
 -}
 
@@ -86,3 +92,10 @@ toggleSort newColumnName newAccessor productSort =
 
     else
         SortDescription newColumnName newAccessor Ascending
+
+
+{-| List of product sources
+-}
+productSources : List String
+productSources =
+    [ "Ebay", "Eduard", "Hannants", "KingKit", "Models For Sale" ]

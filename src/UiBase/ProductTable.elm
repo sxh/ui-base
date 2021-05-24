@@ -28,7 +28,7 @@ import Maybe exposing (withDefault)
 import String exposing (replace)
 import UiBase.FontSizes exposing (largeFontSize, normalFontSize)
 import UiBase.Help exposing (HelpControl, withHelp)
-import UiBase.Product exposing (Product, SortDescription, SortDirection(..), sortDirection)
+import UiBase.Product exposing (Product, SortDescription, SortDirection(..), productSources, sortDirection)
 import UiBase.SvgExtensions exposing (downArrow, upArrow)
 
 
@@ -71,8 +71,11 @@ productTable productTableDescription products =
         textCellWithLink =
             productTextToLink >> textCell
 
+        dashedSources =
+            List.map (\e -> "- " ++ e) productSources
+
         sellerHelp =
-            withHelp [ "Products are included from:", "- Ebay", "- Eduard", "- Hannants", "- KingKit", "- Models For Sale" ] productTableDescription.sourceHelpControl
+            withHelp ("Products are included from:" :: dashedSources) productTableDescription.sourceHelpControl
 
         imageHelp =
             withHelp [ "Click on the image and ", "a larger version will be displayed", "(if it is available)" ] productTableDescription.imageHelpControl
