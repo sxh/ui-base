@@ -3,7 +3,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "8.2.0",
+    "version": "8.2.1",
     "exposed-modules": [
         "UiBase.AircraftDetails",
         "UiBase.AircraftTypes",

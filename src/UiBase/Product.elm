@@ -98,4 +98,4 @@ toggleSort newColumnName newAccessor productSort =
 -}
 productSources : List String
 productSources =
-    [ "Ebay", "Eduard", "Hannants", "KingKit", "Models For Sale" ]
+    [ "Ebay (UK)", "Eduard", "Hannants", "KingKit", "Models For Sale" ]
