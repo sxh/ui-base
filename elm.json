@@ -3,7 +3,7 @@
     "name": "sxh/ui-base",
     "summary": "Common code used across my applications",
     "license": "MIT",
-    "version": "8.2.1",
+    "version": "8.2.2",
     "exposed-modules": [
         "UiBase.AircraftDetails",
         "UiBase.AircraftTypes",
@@ -24,7 +24,7 @@
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
         "Chadtech/elm-vector": "3.0.2 <= v < 4.0.0",
-        "NoRedInk/noredink-ui": "12.20.0 <= v < 13.0.0",
+        "NoRedInk/noredink-ui": "13.1.1 <= v < 14.0.0",
         "elm/browser": "1.0.2 <= v < 2.0.0",
         "elm/core": "1.0.5 <= v < 2.0.0",
         "elm/html": "1.0.0 <= v < 2.0.0",
@@ -33,13 +33,13 @@
         "elm/time": "1.0.0 <= v < 2.0.0",
         "elm/url": "1.0.0 <= v < 2.0.0",
         "elm/virtual-dom": "1.0.2 <= v < 2.0.0",
-        "elm-community/list-extra": "8.3.0 <= v < 9.0.0",
+        "elm-community/list-extra": "8.4.0 <= v < 9.0.0",
         "justinmimbs/date": "3.2.1 <= v < 4.0.0",
         "lattyware/elm-fontawesome": "5.0.0 <= v < 6.0.0",
         "mdgriffith/elm-ui": "1.1.8 <= v < 2.0.0",
         "phollyer/elm-ui-colors": "3.0.1 <= v < 4.0.0",
         "rtfeldman/elm-css": "16.1.1 <= v < 17.0.0",
-        "tesk9/accessible-html-with-css": "2.1.1 <= v < 3.0.0"
+        "tesk9/accessible-html-with-css": "2.2.0 <= v < 3.0.0"
     },
     "test-dependencies": {
         "elm-explorations/test": "1.2.2 <= v < 2.0.0"
